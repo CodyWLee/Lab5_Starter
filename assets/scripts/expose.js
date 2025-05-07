@@ -22,7 +22,6 @@ function init() {
     const volume = parseInt(volumeSlider.value);
     audio.volume = volume / 100;
 
-    // Update volume icon
     let iconLevel;
     if (volume === 0) iconLevel = 0;
     else if (volume < 33) iconLevel = 1;
