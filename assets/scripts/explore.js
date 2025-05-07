@@ -1,3 +1,5 @@
+// explore.js
+
 window.addEventListener('DOMContentLoaded', init);
 
 function init() {
@@ -11,7 +13,6 @@ function init() {
   function populateVoices() {
     voices = synth.getVoices();
 
-    // Clear and repopulate voice list
     voiceSelect.innerHTML = '<option value="select" disabled selected>Select Voice:</option>';
 
     voices.forEach((voice, index) => {
@@ -22,17 +23,16 @@ function init() {
     });
   }
 
-  // Some browsers load voices asynchronously
   if (speechSynthesis.onvoiceschanged !== undefined) {
     speechSynthesis.onvoiceschanged = populateVoices;
   }
 
-  populateVoices(); // Also try once immediately
+  populateVoices();
 
   speakButton.addEventListener('click', () => {
     const selectedIndex = voiceSelect.value;
 
-    if (selectedIndex === "select") return; // Prevent trying to speak without a voice
+    if (selectedIndex === "select") return;
 
     const utterance = new SpeechSynthesisUtterance(textInput.value);
     utterance.voice = voices[selectedIndex];
