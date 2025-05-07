@@ -7,6 +7,7 @@ function init() {
   const voiceSelect = document.getElementById('voice-select');
   const speakButton = document.querySelector('button');
   const textInput = document.getElementById('text-to-speak');
+  const image = document.querySelector('#explore img');
 
   let voices = [];
 
@@ -36,6 +37,17 @@ function init() {
 
     const utterance = new SpeechSynthesisUtterance(textInput.value);
     utterance.voice = voices[selectedIndex];
+
+    utterance.onstart = () => {
+      image.src = 'assets/images/smiling-open.png';
+      image.alt = 'Smiling face with open mouth';
+    };
+
+    utterance.onend = () => {
+      image.src = 'assets/images/smiling.png';
+      image.alt = 'Smiling face';
+    };
+
     synth.speak(utterance);
   });
 }
