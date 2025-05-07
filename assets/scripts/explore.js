@@ -3,5 +3,39 @@
 window.addEventListener('DOMContentLoaded', init);
 
 function init() {
-  // TODO
+  const synth = window.speechSynthesis;
+  const voiceSelect = document.getElementById('voice-select');
+  const speakButton = document.querySelector('button');
+  const textInput = document.getElementById('text-to-speak');
+
+  let voices = [];
+
+  function populateVoices() {
+    voices = synth.getVoices();
+
+    voiceSelect.innerHTML = '<option value="select" disabled selected>Select Voice:</option>';
+
+    voices.forEach((voice, index) => {
+      const option = document.createElement('option');
+      option.textContent = `${voice.name} (${voice.lang})`;
+      option.value = index;
+      voiceSelect.appendChild(option);
+    });
+  }
+
+  if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = populateVoices;
+  }
+
+  populateVoices();
+
+  speakButton.addEventListener('click', () => {
+    const selectedIndex = voiceSelect.value;
+
+    if (selectedIndex === "select") return;
+
+    const utterance = new SpeechSynthesisUtterance(textInput.value);
+    utterance.voice = voices[selectedIndex];
+    synth.speak(utterance);
+  });
 }
